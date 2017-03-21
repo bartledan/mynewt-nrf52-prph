@@ -1,3 +1,4 @@
 repo.name: mynewt-nrf52-prph 
 repo.versions:
-    "0-latest": "master"
+    "0.0.0": "develop"
+    "0-latest": "0.0.0"
