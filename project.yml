@@ -37,6 +37,6 @@ repository.apache-mynewt-core:
 repository.mynewt_nordic:
     type: github
     vers: 0-latest
-    user: runtimeinc
+    user: runtimeco
     repo: mynewt_nordic
 
