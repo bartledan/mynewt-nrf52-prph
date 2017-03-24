@@ -80,5 +80,5 @@ This project is licensed under the Apache License, Version 2.0 - see the [LICENS
 ## Acknowledgments
 
 * mynewt communitiy
-
+* [Billie Thompson for README template](https://gist.github.com/PurpleBooth) - PurpleBooth 
 
