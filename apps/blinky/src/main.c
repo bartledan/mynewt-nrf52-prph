@@ -6,7 +6,7 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
@@ -27,7 +27,7 @@
 #ifdef ARCH_sim
 #include "mcu/mcu_sim.h"
 #endif
-#include "nrf_delay.h"
+#include "nrf_gpio.h"
 
 static volatile int g_task1_loops;
 
@@ -53,19 +53,30 @@ main(int argc, char **argv)
     sysinit();
 
     g_led_pin = LED_BLINK_PIN;
-    hal_gpio_init_out(g_led_pin, 1);
+
+    /*
+     * A better method is to use hal_gpio_init_out, but
+     * this example is to show how one can use the nordic's API
+     * from the SDK.
+     */
+    nrf_gpio_pin_dir_set(g_led_pin, NRF_GPIO_PIN_DIR_OUTPUT);
 
     while (1) {
         ++g_task1_loops;
 
         /* Wait one second.
          *
-         * XXX: Invoke Nordic's defined method instead.
-         * os_time_delay(OS_TICKS_PER_SEC);
+         * XXX: This is not a bare metal application (refer the target config),
+         * we need to use a OS specific method for generating delay, so that
+         * the WDT does not get fired. In other words, nrf_delay_ms will
+         * __not__ work.
          */
-        nrf_delay_ms(1000);
-        /* Toggle the LED */
-        hal_gpio_toggle(g_led_pin);
+        os_time_delay(OS_TICKS_PER_SEC);
+
+        /* Toggle the LED
+         * using Nordic's SDK api instead of hal_gpio_toggle
+         */
+        nrf_gpio_pin_toggle(g_led_pin);
     }
     assert(0);
 
